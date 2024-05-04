@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	config "telegram-bot"
 	"telegram-bot/cmd/sticker"
 
 	"github.com/mymmrac/telego"
@@ -10,7 +11,7 @@ import (
 )
 
 func main() {
-	bot, err := telego.NewBot("6701730667:AAGgiU_c_wmKAxonukecApZ8FVE2cPepkvs", telego.WithDefaultDebugLogger())
+	bot, err := telego.NewBot(config.API_KEY, telego.WithDefaultDebugLogger())
 	if err != nil {
 		log.Fatalf("failed to create new bot: %v", err)
 	}
@@ -27,7 +28,7 @@ func main() {
 				fmt.Printf("Sticker sent to %v\n", msg.Chat.Username)
 			} else {
 				bot.SendMessage(tu.Message(tu.ID(chatID), msg.Text))
-				fmt.Printf("Message sent to %v\n", msg.Chat.Username)
+				fmt.Printf("Message sent to %v\nMessage: %v", msg.Chat.Username, msg.Text)
 			}
 		}
 	}
