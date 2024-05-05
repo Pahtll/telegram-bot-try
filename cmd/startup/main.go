@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	bot, err := telego.NewBot("6701730667:AAGgiU_c_wmKAxonukecApZ8FVE2cPepkvs", telego.WithDefaultDebugLogger())
+	bot, err := telego.NewBot("******", telego.WithDefaultDebugLogger())
 	if err != nil {
 		log.Fatalf("failed to create new bot: %v", err)
 	}
