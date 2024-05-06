@@ -1,13 +1,25 @@
 package keyboards
 
-// import (
-// 	tu "github.com/mymmrac/telego/telegoutil"
-// )
+import (
+	tu "github.com/mymmrac/telego/telegoutil"
+)
 
-// func ActivateInlineKeyboard() {
-// 	keyboard := tu.Keyboard(
-// 		tu.KeyboardRow(
-// 			tu.KeyboardButton("Start to learn Go!").WithWebApp()
-// 		)
-// 	)
-// }
+var ReplyKeyboard = tu.Keyboard(
+	tu.KeyboardRow(
+		tu.KeyboardButton("Start to learn Go!"),
+
+		tu.KeyboardButton("Start to learn Python!").
+			WithText("== Отсосать член..."),
+	),
+	tu.KeyboardRow(
+		tu.KeyboardButton("LOL"),
+	),
+)
+
+var InlineKeyboard = tu.InlineKeyboard(
+	tu.InlineKeyboardRow(
+		tu.InlineKeyboardButton("What about C#?"),
+
+		tu.InlineKeyboardButton("LOL").WithCallbackData("LOL"),
+	),
+)

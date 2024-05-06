@@ -8,8 +8,8 @@ import (
 	"github.com/mymmrac/telego"
 )
 
-func GetRandomSticker() *telego.InputFile {
-	var stickers []string = []string{
+var (
+	stickers []string = []string{
 		"CAACAgIAAxkBAAErOllmNx1x-cbZUzLqnxz9b2k1e4ICjQACmyMAAhGYAAFKrV6CanU7BCo1BA",
 		"CAACAgIAAxkBAAErOldmNx0WQhJKm60b2_qYur-MgAb7mAACDUgAAqtDgUjYgUC3Y2n5VTUE",
 		"CAACAgIAAxkBAAErOlVmNx0ETaYzU9mdws8nggABi6T384kAAlE4AAKGnfBIFMIjLw9QOhM1BA",
@@ -20,7 +20,9 @@ func GetRandomSticker() *telego.InputFile {
 		"CAACAgIAAxkBAAErOmlmNyiBysyTDqSmfpGwNzdYHghw7QAC5CUAAsfyAAFKL2MmNArDN0M1BA",
 		"CAACAgIAAxkBAAErOmtmNyiWB955-4tWMAxSDjKPmhyubQACwCoAAgxwAUrQCnAmGrcLFjUE",
 	}
+)
 
+func GetRandomSticker() *telego.InputFile {
 	max := big.NewInt(int64(len(stickers) - 1))
 	randomNumber, err := rand.Int(rand.Reader, max)
 	if err != nil {
