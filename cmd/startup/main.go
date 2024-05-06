@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	config "telegram-bot"
+	"telegram-bot/cmd/keyboards"
 	"telegram-bot/cmd/sticker"
 
 	"github.com/mymmrac/telego"
@@ -22,15 +23,6 @@ func main() {
 
 	handler, _ := th.NewBotHandler(bot, updates)
 	defer handler.Stop()
-
-	handler.HandleMessage(func(bot *telego.Bot, message telego.Message) {
-		_, _ = bot.SendMessage(
-			tu.Message(
-				tu.ID(message.Chat.ID),
-				fmt.Sprintf("You said: %s", message.Text),
-			),
-		)
-	}, th.AnyMessageWithText())
 
 	handler.Handle(func(bot *telego.Bot, update telego.Update) {
 		_, _ = bot.SendMessage(
@@ -63,10 +55,37 @@ func main() {
 		_, _ = bot.SendMessage(
 			tu.Message(
 				tu.ID(update.Message.Chat.ID),
+				"Reply keyboard, use commands if it's needed",
+			).WithReplyMarkup(keyboards.ReplyKeyboard),
+		)
+	}, th.CommandEqual("reply"))
+
+	handler.Handle(func(bot *telego.Bot, update telego.Update) {
+		_, _ = bot.SendMessage(
+			tu.Message(
+				tu.ID(update.Message.Chat.ID),
+				sticker.GetRandomEmoji(),
+			),
+		)
+	}, th.CommandEqual("emoji"))
+
+	handler.Handle(func(bot *telego.Bot, update telego.Update) {
+		_, _ = bot.SendMessage(
+			tu.Message(
+				tu.ID(update.Message.Chat.ID),
 				"Unknown command, try /help to get list of commands.",
 			),
 		)
 	}, th.AnyCommand())
+
+	handler.HandleMessage(func(bot *telego.Bot, message telego.Message) {
+		_, _ = bot.SendMessage(
+			tu.Message(
+				tu.ID(message.Chat.ID),
+				fmt.Sprintf("You said: %s", message.Text),
+			),
+		)
+	}, th.AnyMessageWithText())
 
 	handler.Start()
 }

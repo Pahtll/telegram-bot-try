@@ -9,10 +9,10 @@ var ReplyKeyboard = tu.Keyboard(
 		tu.KeyboardButton("Start to learn Go!"),
 
 		tu.KeyboardButton("Start to learn Python!").
-			WithText("== Отсосать член..."),
+			WithText("Start to learn Python! == Отсосать член..."),
 	),
 	tu.KeyboardRow(
-		tu.KeyboardButton("LOL"),
+		tu.KeyboardButton("Location?").WithRequestLocation(),
 	),
 )
 

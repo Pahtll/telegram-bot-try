@@ -20,7 +20,29 @@ var (
 		"CAACAgIAAxkBAAErOmlmNyiBysyTDqSmfpGwNzdYHghw7QAC5CUAAsfyAAFKL2MmNArDN0M1BA",
 		"CAACAgIAAxkBAAErOmtmNyiWB955-4tWMAxSDjKPmhyubQACwCoAAgxwAUrQCnAmGrcLFjUE",
 	}
+
+	emojies []string = []string{
+		"\u2764\ufe0f",
+		"❤️",
+		"😍",
+		"💕",
+		"(●'◡'●)",
+		"🧐",
+		"💀",
+		"💩",
+		"☠️",
+	}
 )
+
+func GetRandomEmoji() string {
+	max := big.NewInt(int64(len(emojies) - 1))
+	randomNumber, err := rand.Int(rand.Reader, max)
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+
+	return emojies[randomNumber.Int64()]
+}
 
 func GetRandomSticker() *telego.InputFile {
 	max := big.NewInt(int64(len(stickers) - 1))
