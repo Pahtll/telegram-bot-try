@@ -65,7 +65,7 @@ func main() {
 	}, th.AnyCommand())
 
 	handler.Handle(func(bot *telego.Bot, update telego.Update) {
-		var max int64 = 3
+		var max int64 = 6
 
 		randomNumber := handlers.RandomNumber(max)
 
