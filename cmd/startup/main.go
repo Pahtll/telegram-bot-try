@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 	config "telegram-bot"
+	"telegram-bot/cmd/handlers"
 	"telegram-bot/cmd/keyboards"
-	"telegram-bot/cmd/sticker"
 
 	"github.com/mymmrac/telego"
 	th "github.com/mymmrac/telego/telegohandler"
@@ -33,14 +33,7 @@ func main() {
 		)
 	}, th.CommandEqual("start"))
 
-	handler.Handle(func(bot *telego.Bot, update telego.Update) {
-		_, _ = bot.SendSticker(
-			tu.Sticker(
-				tu.ID(update.Message.Chat.ID),
-				*sticker.GetRandomSticker(),
-			),
-		)
-	}, th.CommandEqual("sticker"))
+	handler.Handle(handlers.SendRandSticker, th.CommandEqual("sticker"))
 
 	handler.Handle(func(bot *telego.Bot, update telego.Update) {
 		_, _ = bot.SendMessage(
@@ -60,14 +53,7 @@ func main() {
 		)
 	}, th.CommandEqual("reply"))
 
-	handler.Handle(func(bot *telego.Bot, update telego.Update) {
-		_, _ = bot.SendMessage(
-			tu.Message(
-				tu.ID(update.Message.Chat.ID),
-				sticker.GetRandomEmoji(),
-			),
-		)
-	}, th.CommandEqual("emoji"))
+	handler.Handle(handlers.SendRandEmoji, th.CommandEqual("emoji"))
 
 	handler.Handle(func(bot *telego.Bot, update telego.Update) {
 		_, _ = bot.SendMessage(
@@ -78,13 +64,21 @@ func main() {
 		)
 	}, th.AnyCommand())
 
-	handler.HandleMessage(func(bot *telego.Bot, message telego.Message) {
-		_, _ = bot.SendMessage(
-			tu.Message(
-				tu.ID(message.Chat.ID),
-				fmt.Sprintf("You said: %s", message.Text),
-			),
-		)
+	handler.Handle(func(bot *telego.Bot, update telego.Update) {
+		var max int64 = 3
+
+		randomNumber := handlers.RandomNumber(max)
+
+		switch randomNumber {
+		case 0:
+			handlers.SendRandImg(bot, update)
+		case 1:
+			handlers.SendRandSticker(bot, update)
+		case 2:
+			handlers.SendRandEmoji(bot, update)
+		default:
+			handlers.EchoMessage(bot, update)
+		}
 	}, th.AnyMessageWithText())
 
 	handler.Start()

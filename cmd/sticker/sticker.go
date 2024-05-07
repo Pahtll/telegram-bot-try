@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"log"
 	"math/big"
+	"os"
 
 	"github.com/mymmrac/telego"
 )
@@ -22,7 +23,6 @@ var (
 	}
 
 	emojies []string = []string{
-		"\u2764\ufe0f",
 		"❤️",
 		"😍",
 		"💕",
@@ -31,6 +31,16 @@ var (
 		"💀",
 		"💩",
 		"☠️",
+	}
+
+	pictures []string = []string{
+		"C:\\Users\\astah\\GolandProjects\\awesomeProject\\telegram-bot-try\\img\\img0.jpg",
+		"C:\\Users\\astah\\GolandProjects\\awesomeProject\\telegram-bot-try\\img\\img1.jpg",
+		"C:\\Users\\astah\\GolandProjects\\awesomeProject\\telegram-bot-try\\img\\img2.jpg",
+		"C:\\Users\\astah\\GolandProjects\\awesomeProject\\telegram-bot-try\\img\\img3.jpg",
+		"C:\\Users\\astah\\GolandProjects\\awesomeProject\\telegram-bot-try\\img\\img4.jpg",
+		"C:\\Users\\astah\\GolandProjects\\awesomeProject\\telegram-bot-try\\img\\img5.jpg",
+		"C:\\Users\\astah\\GolandProjects\\awesomeProject\\telegram-bot-try\\img\\img6.jpg",
 	}
 )
 
@@ -53,5 +63,22 @@ func GetRandomSticker() *telego.InputFile {
 
 	return &telego.InputFile{
 		FileID: stickers[randomNumber.Int64()],
+	}
+}
+
+func GetRandomPicture() *telego.InputFile {
+	max := big.NewInt(int64(len(pictures) - 1))
+	randomNumber, err := rand.Int(rand.Reader, max)
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+
+	photo, err := os.Open(pictures[randomNumber.Int64()])
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+
+	return &telego.InputFile{
+		File: photo,
 	}
 }
