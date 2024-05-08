@@ -24,6 +24,12 @@ func main() {
 	handler, _ := th.NewBotHandler(bot, updates)
 	defer handler.Stop()
 
+	handler.Handle(handlers.SendRandSticker, th.CommandEqual("sticker"))
+
+	handler.Handle(handlers.SendRandEmoji, th.CommandEqual("emoji"))
+
+	handler.Handle(handlers.SendRandImg, th.CommandEqual("image"))
+
 	handler.Handle(func(bot *telego.Bot, update telego.Update) {
 		_, _ = bot.SendMessage(
 			tu.Message(
@@ -32,8 +38,6 @@ func main() {
 			),
 		)
 	}, th.CommandEqual("start"))
-
-	handler.Handle(handlers.SendRandSticker, th.CommandEqual("sticker"))
 
 	handler.Handle(func(bot *telego.Bot, update telego.Update) {
 		_, _ = bot.SendMessage(
@@ -52,8 +56,6 @@ func main() {
 			).WithReplyMarkup(keyboards.ReplyKeyboard),
 		)
 	}, th.CommandEqual("reply"))
-
-	handler.Handle(handlers.SendRandEmoji, th.CommandEqual("emoji"))
 
 	handler.Handle(func(bot *telego.Bot, update telego.Update) {
 		_, _ = bot.SendMessage(
